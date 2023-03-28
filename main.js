@@ -1,7 +1,3 @@
-console.log('CARGA COMPLETA');
-
-const URLAPI = 'https://gateway.marvel.com:443/v1/public/characters/1011334/comics?ts=1&apikey=3c464487ddb485dd26e90b1a2ccc74bd&hash=48a4ae55c01d78c3f46250a6ff7d5a17';
-
 
 /* fetch(url)
     .then(response => response.json())
@@ -10,38 +6,34 @@ const URLAPI = 'https://gateway.marvel.com:443/v1/public/characters/1011334/comi
             img.src = data[0].url;
             
           }) */
-const imagen = document.querySelector('#img')
-async function fetchData(url) {
-    const resp = await fetch(url);
+console.log('CARGA COMPLETA');
+
+const URL_API_SEARCH_RANDOM = 'https://api.thedogapi.com/v1/images/search?limit=4&api_key=live_nYwwvicoRKmzbTpDh7sS1MhVASUDuCY8QTYPWlV7lUa5LDRjRk4ydl0p9kT4a7bl';
+const btn_recarga = document.querySelector("#recargaImagen");
+const img = document.querySelector("#imagenesDog");
+async function fetchData() {
+    const resp = await fetch(URL_API_SEARCH_RANDOM);
     const data = await resp.json();
-    return data;
-}
-
-async function getAvenger(url) {
-    try {
-        const response = await fetchData(url);
-        const image =  response.data.results[0].images[0].path+".jpg";
-        const cantidad =  response.data.results;
-        for (let i = 0; i < cantidad.length; i++) {
-           imagen.innerHTML +=`<div class="col-sm-3 align-self-center mt-4">
-           <div class="card text-center">
-           <div class="card-header" id="group"></div>
-           <div class="card-body">
-             <h5 class="card-title " id="name"> ${cantidad[i].title}</h5>
-             <p class="card-text" id="text"></p>
-             <img src="${cantidad[i].images[0].path +".jpg"}" alt=""style="width: 200px; height: 300px;">
-           </div>
-           <div class="card-footer text-muted" id="description_book">
-            ${cantidad[i].textObjects[0].text}
-           </div>
-           </div>
-      </div>`
-        }
-    } catch {
-        throw new Error("Error en la API");
+    console.log(data);
+    let datos_imagen = `
+    ${data.map (img =>
+        ` 
+        <div class="col-auto mb-3 me-2 ms-3" style="float: left;">
+            <div class="card " style="width: 18rem;" >
+                <img src="${img.url}" class="card-img-top img_cambia" alt="..." width="300" height="300">
+                <div class="card-body">
+                    <button type="button" class="btn btn-primary">Agregar a Favoritos</button>
+                </div>
+            </div>
+        </div>
+        `)}`;
+        img.innerHTML = datos_imagen.replace(/,/g,"") 
     }
-}
+    // boton carga nuevas imagenes 
+    btn_recarga.onclick = fetchData
+    fetchData()
 
-
-getAvenger(URLAPI);
-
+    setTimeout(()=>{
+        let imagenDog = document.querySelectorAll(".img_cambia");
+         imagenDog.forEach((dog)=>{ dog.addEventListener("mouseover",()=>{console.log("Holaaaaaaaaaaaaaaaaa");})})
+    }, 2000)
