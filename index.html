@@ -8,9 +8,6 @@
     <title>Perros aleatorios</title>
 </head>
 <style>
- body{
-    background-color: rgb(4, 95, 141);
-    }
 </style>
 <body>
    <div class="container">
@@ -21,19 +18,21 @@
             <div class="card-body">
                 <span id="error"></span>
                 <div class="row g-3" id="imagenesDog">
+
                 </div>
-                <a id="recargaImagen" class="btn btn-primary">Recargar</a>
+                <a id="recargaImagen" class="btn btn-primary mt-4">Recargar</a>
             </div>
         </div>
         <div class="card text-center mt-5 mb-5">
+            <section inputmode="uploadingDogs">
+                <h4>sube la foto de tu perro favorito</h4>
+                <form id="uploadingForm">
+                    <input id="file" class="custom-file-input" type="file" name="file">
+                    <button type="button" id="btnUpload" class="btn btn-primary"> Subir foto</button>
+                </form>
+                </section>
             <div class="card-header">
                 <h1 class="card-title">Tus Perros Favoritos</h1>
-                <div class="position-relative m-6 mt-5">
-                    <div class="mb-3 position-absolute top-0 start-50 translate-middle btn btn-sm">
-                        <label for="formFile" class="form-label">Default file input example</label>
-                        <input class="form-control" type="file" id="formFile">
-                      </div>
-                </div>
             </div>
             <div class="card-body">
                 <!-- <span id="error"></span> -->

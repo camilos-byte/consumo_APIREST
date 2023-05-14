@@ -10,8 +10,9 @@ console.log('CARGA COMPLETA');
 const d = document;
 const endpoint = {
     // URL_API_SEARCH_FAVOURITES : 'https://api.thedogapi.com/v1/favourites/api_key=live_how4GJ5F7BqESedRg4YV13F5gVCGELLDWCAhGW3j5ibdvuGkPETeRohdq517FuFQ' ,
-    URL_API_SEARCH_RANDOM : 'https://api.thedogapi.com/v1/images/search?limit=4&api_key=live_how4GJ5F7BqESedRg4YV13F5gVCGELLDWCAhGW3j5ibdvuGkPETeRohdq517FuFQ',
+    URL_API_SEARCH_RANDOM : 'https://api.thedogapi.com/v1/images/search?limit=3&api_key=live_how4GJ5F7BqESedRg4YV13F5gVCGELLDWCAhGW3j5ibdvuGkPETeRohdq517FuFQ',
     URL_API_FAVOURITES: 'https://api.thedogapi.com/v1/favourites?api_key=live_how4GJ5F7BqESedRg4YV13F5gVCGELLDWCAhGW3j5ibdvuGkPETeRohdq517FuFQ',
+    URL_API_UPLOAD_PHOTO : 'https://api.thedogapi.com/v1/images/upload?api_key=live_how4GJ5F7BqESedRg4YV13F5gVCGELLDWCAhGW3j5ibdvuGkPETeRohdq517FuFQ',
 }
 
 let URL_API_DELETE_FAV = (id) => `https://api.thedogapi.com/v1/favourites/${id}?api_key=live_how4GJ5F7BqESedRg4YV13F5gVCGELLDWCAhGW3j5ibdvuGkPETeRohdq517FuFQ`;
@@ -27,7 +28,7 @@ async function fetchData() {
          let datos_imagen = `
     ${data.map (img =>
         ` 
-        <div class="" >
+        <div class="col-sm-4">
             <div class="card " style="width: 18rem;" >
                 <img src="${img.url}" class="card-img-top img_cambia" alt="..." width="300" height="200">
                 <div class="card-body">
@@ -135,6 +136,31 @@ async function fetchData() {
             })
        }
     }
+
+    async function uploadingDogsPhoto() {
+        const btnUpload = d.querySelector('#btnUpload');
+        btnUpload.addEventListener('click', async (e) =>{
+            const form = d.querySelector('#uploadingForm');
+            const formData = new FormData(form);
+            const option= {
+                method: 'POST',
+                body: formData, 
+            }
+            const resUpload = await fetch (endpoint.URL_API_UPLOAD_PHOTO,option);
+            const dataUpload = await resUpload.json();
+            if (resUpload.ok == 'true') {
+                console.log('Hola');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Subido',
+                    text: `Subido`,
+                })
+                dogsFovurites(dataUpload.id)
+            }
+        })
+    }
+
+    uploadingDogsPhoto()
     // boton carga nuevas imagenes 
     btn_recarga.onclick = fetchData
     fetchData()
